@@ -5,6 +5,11 @@ const reducer=(posts_state=[],action)=>{
          
         case 'CREATE':
             return [...posts_state,action.payload]; 
+
+        case 'UPDATE':
+            return posts_state.map((post)=>
+                post._id===action.payload._id? action.payload:post
+            )
         default:
             return posts_state;
            

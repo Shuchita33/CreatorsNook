@@ -6,3 +6,5 @@ export const fetchPosts=()=>axios.get(url);
 // to fetch data from routes
 
 export const createPosts=(newPost)=>axios.post(url,newPost);
+
+export const updatePost=(id,updatedPost)=>axios.patch(`${url}/${id}`,updatedPost);
