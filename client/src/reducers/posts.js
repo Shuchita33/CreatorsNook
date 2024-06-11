@@ -10,6 +10,9 @@ const reducer=(posts_state=[],action)=>{
             return posts_state.map((post)=>
                 post._id===action.payload._id? action.payload:post
             )
+        case 'DELETE':
+            return posts_state.filter((post)=>post._id!==action.payload._id)
+
         default:
             return posts_state;
            

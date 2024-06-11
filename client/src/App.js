@@ -11,9 +11,10 @@ import {useState, useEffect } from 'react';
 import getPosts from './actions/posts';
 
 function App() {
-  const[currentId,setCurrentId]=useState(null)
+  const[currentId,setCurrentId]=useState(null);
   const classes=useStyles();
   const dispatch=useDispatch();
+
   useEffect(()=>{
     dispatch(getPosts());
   },[currentId,dispatch]) // to reload the app on the currentId change also (upon updation)
