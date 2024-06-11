@@ -20,7 +20,7 @@ function App() {
   return (
     <Container maxWidth='lg'>
       <AppBar className={classes.appBar} position='static' color='inherit'>
-        <Typography className={classes.image} variant='h2' align='center'> Memories </Typography>
+        <Typography className={classes.image} variant='h2' align='center'> CreatorsNook </Typography>
         <img className={classes.image} src={photo} alt='imm' height="90" width='80'></img>
       </AppBar>
       <Grow in>
