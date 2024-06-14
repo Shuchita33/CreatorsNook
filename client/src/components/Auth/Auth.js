@@ -3,8 +3,14 @@ import{Avatar, Grid, Typography, Paper, Button, Container} from '@material-ui/co
 import useStyles from './styles';
 import LockOutlined  from "@material-ui/icons/LockOutlined";
 import Input from "./input";
-
+import {GoogleLogin,GoogleOAuthProvider} from '@react-oauth/google';
+import {useDispatch} from 'react-redux';
+import jwt_decode from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
+// import Icon from './icon';
 const Auth=()=>{
+    const dispatch=useDispatch();
+    const navigate=useNavigate();
     const classes=useStyles();
     const [isSignUp,setSignUp]=useState(true);
 
@@ -18,12 +24,27 @@ const Auth=()=>{
     const handleChange=()=>{
 
     }
+    const googleSuccess=async(res)=>{
+        console.log(res);
+        const decoded=jwt_decode(res?.credential);
+        const result=decoded;
+        try {
+            dispatch({type:'AUTH',data:{result}});
+            navigate('/')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    const googleFailure=()=>{
+        console.log("Google Login Unsuccessful, Try Again!")
+    }
     const switchMode=()=>{
         setSignUp((prevSignUp)=>!prevSignUp);
         handleShowPassword(false);
     }
     return(
-       <Container component="main" maxWidth='xs'>
+        <GoogleOAuthProvider clientId="386751666581-00b4r6ea8lpb2r6vj6skdmanjklporer.apps.googleusercontent.com">
+            <Container component="main" maxWidth='xs'>
         <Paper className={classes.paper} elevation={3}>
             <Avatar className={classes.avatar}>
                 <LockOutlined></LockOutlined>
@@ -41,6 +62,21 @@ const Auth=()=>{
                         <Input name='password' label='Password' handleChange={handleChange} type={showPassword?'text':'password'} handleShowPassword={handleShowPassword}></Input>
                         {isSignUp && <Input name='confirmPassword' label="Repeat Password" handleChange={handleChange} type='password' ></Input>}
                 </Grid>
+                <GoogleLogin 
+                    // render={(renderProps)=>(
+                    //     <Button className={classes.googleButton} 
+                    //             color='primary' 
+                    //             fullWidth
+                    //             onClick={renderProps.onClick}
+                              
+                    //             startIcon={<Icon></Icon>}
+                    //             variant="contained"
+                    //     >Google SignIn</Button>
+                    // )}
+                onSuccess={googleSuccess}
+                onFailure={googleFailure}
+                cookiePolicy="single_host_origin">
+                </GoogleLogin>
                 <Button type='submit' fullWidth variant="contained" color="primary" className={classes.submit}>
                     {isSignUp?'SignUp':'SignIn'}
                 </Button>
@@ -54,6 +90,8 @@ const Auth=()=>{
             </form>
         </Paper>
        </Container>
+        </GoogleOAuthProvider>
+       
     )
 }
 export default Auth;
