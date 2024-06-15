@@ -11,8 +11,9 @@ import {createPost,updatePost} from '../../actions/posts';
 //get the current Id:
 
 const Form=({currentId,setCurrentId})=>{
+    const user=JSON.parse(localStorage.getItem('profile'));
     const [postData,setPostData]=useState({
-        creator:'', title:'', message:'',tags:'', selectedFiles:''
+        title:'', message:'',tags:'', selectedFiles:''
     })
     //fetch data using redux, to auto fill into from upon clicking on update 
     const post = useSelector((state) => currentId?state.posts.find((p)=>p._id===currentId):null); 
@@ -30,31 +31,34 @@ const Form=({currentId,setCurrentId})=>{
         e.preventDefault();
 
         if(currentId){
-            dispatch(updatePost(currentId,postData));
+            dispatch(updatePost(currentId,{...postData,name:user?.result?.name}));
         }
         else{
-            dispatch(createPost(postData));  //dispatched action
+            dispatch(createPost({...postData,name:user?.result?.name}));  //dispatched action
         }
         clear();
     }
     const clear=()=>{
         setCurrentId(null);
-        setPostData({creator:'', title:'', message:'',tags:'', selectedFiles:''})
+        setPostData({title:'', message:'',tags:'', selectedFiles:''})
     }
+
+    // is not logged
+    if(!user?.result?.name){
+        return(
+            <Paper className={classes.paper}>
+                <Typography variant="h6" align="center">
+                    Please Sign in to create own posts and like other's
+                </Typography>
+            </Paper>
+        )
+    }
+
     return(
        <Paper className={classes.paper}>                {/* //add two classes for margin b/t textfields */}
         <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
             <Typography variant="h6"> {currentId?`Editing`:`Creating`} a Post </Typography>
-            <TextField 
-                name="creator" 
-                variant="outlined"
-                label='Creator'
-                fullWidth
-                value={postData.creator}
-                onChange={(e)=>{setPostData({ ...postData,   //regain the prev data
-                    creator:e.target.value
-                })}}
-            ></TextField>
+            {/* <TextField name="creator" variant="outlined" label='Creator' fullWidth value={postData.creator} onChange={(e)=>{setPostData({ ...postData,creator:e.target.value})}}></TextField> */}
             <TextField 
                 name="title" 
                 variant="outlined"

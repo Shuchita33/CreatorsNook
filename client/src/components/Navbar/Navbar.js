@@ -16,6 +16,7 @@ const Navbar=()=>{
 
     useEffect(()=>{
         setUser(JSON.parse(localStorage.getItem('profile')));
+        
     },[location])
 
     const logout=()=>{
@@ -38,7 +39,7 @@ const Navbar=()=>{
                             {user.result.name.charAt(0)}
                     </Avatar>
                     <Typography className={classes.userName} variant="h6">
-                        {user.result.given_name}
+                        {user.result.given_name ? user.result.given_name :user.result.name}
                     </Typography>
                     <Button className={classes.logout} variant="contained" color="secondary" onClick={logout}>LogOut</Button>
                 </div>

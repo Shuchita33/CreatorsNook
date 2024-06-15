@@ -7,6 +7,7 @@ import {GoogleLogin,GoogleOAuthProvider} from '@react-oauth/google';
 import {useDispatch} from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+import { signin, signup } from "../../actions/auth";
 // import Icon from './icon';
 
 const initialState={firstName:'',lastName:'',email:'',password:'',confirmPassword:''}
@@ -25,18 +26,26 @@ const Auth=()=>{
     const[formData,setFormData]=useState(initialState);
     const handleSubmit=(e)=>{
         e.preventDefault();
-        console.log(formData);
+        if(isSignUp){
+            dispatch(signup(formData,navigate));
+        }
+        else{
+            dispatch(signin(formData,navigate));
+        }
+
+        // console.log(formData);
     }
     //fill the form manually
     const handleChange=(e)=>{
-        setFormData({...formData,[e.target.name]:[e.target.value]})
+        setFormData({...formData,[e.target.name]:e.target.value})
     }
     const googleSuccess=async(res)=>{
         console.log(res);
         const decoded=jwt_decode(res?.credential);
         const result=decoded;
+        const token=JSON.stringify(decoded)
         try {
-            dispatch({type:'AUTH',data:{result}});
+            dispatch({type:'AUTH',data:{result,token}});
             navigate('/')
         } catch (error) {
             console.log(error)

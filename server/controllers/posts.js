@@ -12,7 +12,7 @@ export const getPosts= async(req,res)=>{
 }
 export const createPosts= async(req,res)=>{
     const postGotten=req.body;
-    const newPost=new PostMessage(postGotten);
+    const newPost=new PostMessage({...postGotten,creator:req.userId,createdAt:new Date().toISOString()});
     try{
         await newPost.save();
         res.status(201).json(newPost);
@@ -42,9 +42,10 @@ export const deletePosts=async(req,res)=>{
 }
 export const likePost=async(req,res)=>{
     const{id}=req.params;
-    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No post with this ID");
+    
+    if(!req.userId) return res.json({message:"Unauthenticated "})
 
-    if(!res.userId) return res.json({message:"Unauthenticated "})
+    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No post with this ID");
 
     const post=await PostMessage.findById(id);
 
