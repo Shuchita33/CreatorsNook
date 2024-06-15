@@ -8,6 +8,9 @@ import {useDispatch} from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 // import Icon from './icon';
+
+const initialState={firstName:'',lastName:'',email:'',password:'',confirmPassword:''}
+
 const Auth=()=>{
     const dispatch=useDispatch();
     const navigate=useNavigate();
@@ -18,11 +21,15 @@ const Auth=()=>{
     const handleShowPassword=()=>{
         setShowPassword((prevShowPassword)=>!prevShowPassword)
     }
-    const handleSubmit=()=>{
 
+    const[formData,setFormData]=useState(initialState);
+    const handleSubmit=(e)=>{
+        e.preventDefault();
+        console.log(formData);
     }
-    const handleChange=()=>{
-
+    //fill the form manually
+    const handleChange=(e)=>{
+        setFormData({...formData,[e.target.name]:[e.target.value]})
     }
     const googleSuccess=async(res)=>{
         console.log(res);
@@ -42,6 +49,8 @@ const Auth=()=>{
         setSignUp((prevSignUp)=>!prevSignUp);
         handleShowPassword(false);
     }
+
+
     return(
         <GoogleOAuthProvider clientId="386751666581-00b4r6ea8lpb2r6vj6skdmanjklporer.apps.googleusercontent.com">
             <Container component="main" maxWidth='xs'>
@@ -55,7 +64,7 @@ const Auth=()=>{
                     {isSignUp && (
                         <>
                         <Input name='firstName' label="First Name" handleChange={handleChange} autoFocus half></Input>
-                        <Input name='firstName' label="First Name" handleChange={handleChange} half></Input>   
+                        <Input name='lastName' label="Last Name" handleChange={handleChange} half></Input>   
                         </>
                     )}
                         <Input name='email' label='Email' handleChange={handleChange} type='email'></Input>
