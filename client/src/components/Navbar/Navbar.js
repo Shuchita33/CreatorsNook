@@ -5,7 +5,7 @@ import photo from '../../images/photo.png';
 import {Link,useNavigate,useLocation} from 'react-router-dom';
 import { useState,useEffect } from "react";
 import { useDispatch } from "react-redux";
-
+import decode from 'jwt-decode';
 const Navbar=()=>{
     const ourUser=JSON.parse(localStorage.getItem('profile'));
     const classes=useStyles();
@@ -13,17 +13,28 @@ const Navbar=()=>{
     const navigate=useNavigate();
     const dispatch=useDispatch();
     const location=useLocation();
-
-    useEffect(()=>{
-        setUser(JSON.parse(localStorage.getItem('profile')));
-        
-    },[location])
-
     const logout=()=>{
         dispatch({type:'LOGOUT'})
         navigate('/');
         setUser(null)
     }
+    useEffect(()=>{
+        const token=user?.token;
+        if(token && token.length<500){  //which is a manual login token
+            const decodedToken=decode(token);
+            if(decodedToken.exp*1000<new Date().getTime()){
+                logout();
+            }
+        }
+        else{  //for google signin
+            if(user?.result.exp*1000<new Date().getTime()){  //the format of google oauth token is different from that of jwt
+                logout();
+            }
+        }
+        
+        setUser(JSON.parse(localStorage.getItem('profile')));  
+    },[location])
+
     return(
       <AppBar className={classes.appBar} position='static' color='inherit'>
         <div className={classes.brandContainer}>
