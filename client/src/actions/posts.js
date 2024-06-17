@@ -1,7 +1,7 @@
 import * as api from '../api';
-import {CREATE,DELETE,UPDATE,FETCH_ALL} from '../constants/actionTypes';
+import {CREATE,DELETE,UPDATE,FETCH_ALL,FETCH_BY_SEARCH} from '../constants/actionTypes';
 // create actions
-const getPosts=()=>async(dispatch)=>{
+export const getPosts=()=>async(dispatch)=>{
     try {
         const {data}=await api.fetchPosts();
         console.log(data);
@@ -51,4 +51,16 @@ export const likePost=(id)=>async(dispatch)=>{
         console.log(error.message);
     }
 }
+export const getPostsBySearch=(searchQuery)=>async(dispatch)=>{
+    try {
+        // console.log("Function called");
+        const {data:{data}}=await api.fetchPostsBySearch(searchQuery);
+        console.log(data);
+        const action={type:FETCH_BY_SEARCH,payload:data};
+        dispatch(action);   
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export default getPosts; 

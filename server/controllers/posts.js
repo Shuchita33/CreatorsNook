@@ -60,3 +60,15 @@ export const likePost=async(req,res)=>{
     const updatedPost=await PostMessage.findByIdAndUpdate(id,updtpost,{new:true});
     res.json(updatedPost);
 }
+export const getPostsBySearch= async(req,res)=>{
+    const {searchQuery,tags}=req.query;
+    try {
+        const title=new RegExp(searchQuery,'i');
+        //return posts where title matches or there is one matching tag in the array of tags we've got in query
+        const posts= await PostMessage.find({ $or: [ {title},{ tags: { $in:tags.split(',')}} ]});
+        
+        res.json({data:posts}) //sending back to frntd
+    } catch (error) {
+        res.status(404).json({message:error.message});
+    }
+}

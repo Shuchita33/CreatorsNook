@@ -37,10 +37,10 @@ const Navbar=()=>{
 
     return(
       <AppBar className={classes.appBar} position='static' color='inherit'>
-        <div className={classes.brandContainer}>
-            <Typography className={classes.image} variant='h2' align='center'> CreatorsNook </Typography>
+        <Link to='/' style={{ textDecoration: 'none' }} className={classes.brandContainer}>
+            <Typography variant='h2' style={{fontFamily:'Roboto, sans-serif', color:'black'}} align='center'> CreatorsNook </Typography>
             <img className={classes.image} src={photo} alt='imm' height="90" width='80'></img>
-        </div>
+        </Link>
         <Toolbar className={classes.toolbar}>
             {user?(
                 <div className={classes.profile}>
