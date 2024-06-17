@@ -10,7 +10,7 @@ API.interceptors.request.use((req)=>{
     }
     return req;
 })
-export const fetchPosts=()=>API.get('/posts');                  // to fetch data from routes
+export const fetchPosts=(page)=>API.get(`/posts?page=${page}`);  // to pass page number on which we are
 export const createPosts=(newPost)=>API.post('/posts',newPost);
 export const updatePost=(id,updatedPost)=>API.patch(`${'/posts'}/${id}`,updatedPost);
 export const deletePosts=(id)=>API.delete(`${'/posts'}/${id}`);

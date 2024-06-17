@@ -50,9 +50,9 @@ const Home=()=>{
         navigate('/');
       }
     }
-    useEffect(()=>{
-        dispatch(getPosts());
-    },[currentId,dispatch]) // to reload the app on the currentId change also (upon updation)
+    // useEffect(()=>{
+    //     dispatch(getPosts());
+    // },[currentId,dispatch]) // to reload the app on the currentId change also (upon updation)
 
     return(
         <Grow in>
@@ -84,9 +84,9 @@ const Home=()=>{
                 <Button onClick={searchPost} color='primary' variant='contained' className={classes.searchButton}>SEARCH</Button>
               </AppBar>
               <Form currentId={currentId} setCurrentId={setCurrentId}/>
-              <Paper elevation={6}>
-                <Paginate></Paginate>
-              </Paper>
+              {(!searchQuery || !tags.length) && <Paper elevation={6} className={classes.pagination}>
+                <Paginate page={page}></Paginate>
+              </Paper>}
             </Grid>
           </Grid>
         </Container>

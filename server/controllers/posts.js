@@ -1,9 +1,21 @@
 import mongoose from 'mongoose';
 import PostMessage from '../models/postMessage.js';
 export const getPosts= async(req,res)=>{
+    const page=req.query;
+    // console.log(page.page)
+
     try{
-        const msg=await PostMessage.find();
-        res.status(200).json(msg);
+        const LIMIT=3;
+        const startIndex=(Number(page.page)-1)*LIMIT; //get starting index of every page
+        const total=await PostMessage.countDocuments({}); // the total number of pages we would have
+        const numberofPages=Math.ceil(total/LIMIT);
+
+        const postsmsg=await PostMessage.find().sort({_id:-1}).limit(LIMIT).skip(startIndex);
+        // to fetch posts newest to oldest, a certain no. for each page, by skipping the ones already fetched on prev page
+        // console.log(postsmsg)
+        res.status(200).json({data: postsmsg,
+                              currentPage:Number(page.page),
+                              numberofPages:numberofPages});
 
     }
     catch(error){
