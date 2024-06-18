@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import PostMessage from '../models/postMessage.js';
+
+//FETCH ALL POSTS
 export const getPosts= async(req,res)=>{
     const page=req.query;
     // console.log(page.page)
@@ -22,6 +24,8 @@ export const getPosts= async(req,res)=>{
         res.status(404).json({message:error.message});
     }
 }
+
+//CREATE A POST
 export const createPosts= async(req,res)=>{
     const postGotten=req.body;
     const newPost=new PostMessage({...postGotten,creator:req.userId,createdAt:new Date().toISOString()});
@@ -33,6 +37,8 @@ export const createPosts= async(req,res)=>{
         res.status(409).json({message:error.message});
     }
 }
+
+//UPDATE POST
 export const updatePosts= async(req,res)=>{
     const{ id: _id}=req.params;
     const post=req.body;
@@ -44,6 +50,8 @@ export const updatePosts= async(req,res)=>{
 
     res.json(updatedPost);
 }
+
+//DELETE POST
 export const deletePosts=async(req,res)=>{
     const {id}=req.params;
     if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No post with this ID");
@@ -52,6 +60,8 @@ export const deletePosts=async(req,res)=>{
 
     res.json({message:'Post Deleted Successfully'})
 }
+
+//LIKE POST
 export const likePost=async(req,res)=>{
     const{id}=req.params;
     
@@ -72,6 +82,8 @@ export const likePost=async(req,res)=>{
     const updatedPost=await PostMessage.findByIdAndUpdate(id,updtpost,{new:true});
     res.json(updatedPost);
 }
+
+//SEARCH POST
 export const getPostsBySearch= async(req,res)=>{
     const {searchQuery,tags}=req.query;
     try {
@@ -80,6 +92,18 @@ export const getPostsBySearch= async(req,res)=>{
         const posts= await PostMessage.find({ $or: [ {title},{ tags: { $in:tags.split(',')}} ]});
         
         res.json({data:posts}) //sending back to frntd
+    } catch (error) {
+        res.status(404).json({message:error.message});
+    }
+}
+
+//FETCH A SINGLE POST
+export const getPost=async(req,res)=>{
+    const {id}=req.params;
+    try {
+        const post=await PostMessage.findById(id);
+        console.log(post);
+        res.status(200).json(post);
     } catch (error) {
         res.status(404).json({message:error.message});
     }
