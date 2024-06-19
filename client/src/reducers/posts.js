@@ -26,6 +26,7 @@ const reducer=(state={isLoading:true,posts:[]},action)=>{
             return {...state,posts:state.posts.filter((post)=>post._id!==action.payload._id)}
 
         case FETCH_BY_SEARCH:
+            console.log(action.payload);
             return {...state, posts:action.payload};
         
         case FETCH_POST:

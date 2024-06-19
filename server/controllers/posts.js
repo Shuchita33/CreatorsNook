@@ -7,7 +7,7 @@ export const getPosts= async(req,res)=>{
     // console.log(page.page)
 
     try{
-        const LIMIT=3;
+        const LIMIT=6;
         const startIndex=(Number(page.page)-1)*LIMIT; //get starting index of every page
         const total=await PostMessage.countDocuments({}); // the total number of pages we would have
         const numberofPages=Math.ceil(total/LIMIT);
@@ -86,14 +86,14 @@ export const likePost=async(req,res)=>{
 //SEARCH POST
 export const getPostsBySearch= async(req,res)=>{
     const {searchQuery,tags}=req.query;
-    try {
+    try {       
         const title=new RegExp(searchQuery,'i');
         //return posts where title matches or there is one matching tag in the array of tags we've got in query
         const posts= await PostMessage.find({ $or: [ {title},{ tags: { $in:tags.split(',')}} ]});
         
-        res.json({data:posts}) //sending back to frntd
+        res.status(200).json({data:posts}) //sending back to frntd
     } catch (error) {
-        res.status(404).json({message:error.message});
+        res.status(404).json(error);
     }
 }
 
@@ -102,7 +102,7 @@ export const getPost=async(req,res)=>{
     const {id}=req.params;
     try {
         const post=await PostMessage.findById(id);
-        console.log(post);
+        // console.log(post);
         res.status(200).json(post);
     } catch (error) {
         res.status(404).json({message:error.message});

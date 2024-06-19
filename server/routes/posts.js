@@ -5,12 +5,13 @@ import { getPosts,createPosts, getPost, updatePosts,deletePosts,likePost, getPos
 
 import auth from '../middlewares/auth.js';
 
+postrouter.get('/search',getPostsBySearch);
 postrouter.get('/:id',getPost);
 postrouter.get('/',getPosts);
 postrouter.post('/', auth, createPosts);
 postrouter.patch('/:id', auth, updatePosts);
 postrouter.delete('/:id', auth, deletePosts);
 postrouter.patch('/:id/likePost', auth, likePost);
-postrouter.get('/search',getPostsBySearch);
+
 
 export default postrouter; 

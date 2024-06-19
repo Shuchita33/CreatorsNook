@@ -34,8 +34,8 @@ const Post=({post, setCurrentId})=>{
 
     return(
         <Card className={classes.card} raised elevation={6}>
-          <ButtonBase className={classes.cardAction} onClick={openPost}>
-              <CardMedia className={classes.media} image={post.selectedFile}  title={post.title} />
+          <ButtonBase className={classes.cardAction} >
+              <CardMedia className={classes.media} image={post.selectedFile}  title={post.title} onClick={openPost}/>
               <div className={classes.overlay}>
                   <Typography variant="h6">{post.name}</Typography>
                   <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>

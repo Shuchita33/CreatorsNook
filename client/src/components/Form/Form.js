@@ -16,7 +16,7 @@ const Form=({currentId,setCurrentId})=>{
         title:'', message:'',tags:'', selectedFiles:''
     })
     //fetch data using redux, to auto fill into from upon clicking on update 
-    const post = useSelector((state) => currentId?state.posts.find((p)=>p._id===currentId):null); 
+    const post = useSelector((state) => currentId?state.posts.posts.find((p)=>p._id===currentId):null); 
     //populate the data of the form
     useEffect(()=>{
         if(post){
