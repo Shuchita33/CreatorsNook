@@ -1,11 +1,12 @@
 import * as api from '../api';
-import {CREATE,DELETE,UPDATE,FETCH_ALL,FETCH_BY_SEARCH,START_LOADING,END_LOADING,FETCH_POST} from '../constants/actionTypes';
+import {CREATE,DELETE,UPDATE,FETCH_ALL,FETCH_BY_SEARCH,START_LOADING,END_LOADING,FETCH_POST,COMMENT} from '../constants/actionTypes';
+
 // create actions
 export const getPosts=(page)=>async(dispatch)=>{
     try {
         dispatch({type:START_LOADING});
         const {data}=await api.fetchPosts(page);
-        console.log(data);
+        // console.log(data);
         
         const action={type:FETCH_ALL,payload:data};
         dispatch(action);
@@ -84,5 +85,12 @@ export const getPostsBySearch=(searchQuery)=>async(dispatch)=>{
         console.log(error);
     }
 }
-
+export const commentPost=(value,id)=>async(dispatch)=>{
+    const {data} =await api.comment(value,id);
+    //console.log(data); //new post with added comments
+    console.log(data);
+    dispatch({type:COMMENT,payload:data});
+    
+    return data.comments;
+}
 export default getPosts; 

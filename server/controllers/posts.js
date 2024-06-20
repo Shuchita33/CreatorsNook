@@ -1,6 +1,21 @@
 import mongoose from 'mongoose';
 import PostMessage from '../models/postMessage.js';
 
+//COMMENT
+export const commentPost=async(req,res)=>{
+    const {id}=req.params;
+    const {value}=req.body;
+    // console.log(id);
+    try {
+        const post=await PostMessage.findById(id);
+        post.comments.push(value);
+        
+        const updatedPost=await PostMessage.findByIdAndUpdate(id,post,{new:true});
+        res.json(updatedPost);
+    } catch (error) {
+        console.log(error);
+    }
+}
 //FETCH ALL POSTS
 export const getPosts= async(req,res)=>{
     const page=req.query;

@@ -11,6 +11,7 @@ API.interceptors.request.use((req)=>{
     return req;
 })
 
+export const comment=(value,id)=>API.post(`/posts/${id}/commentPost`,{value});
 export const fetchPost=(id)=>API.get(`/posts/${id}`);
 export const fetchPosts=(page)=>API.get(`/posts?page=${page}`);  // to pass page number on which we are
 export const createPosts=(newPost)=>API.post('/posts',newPost);
