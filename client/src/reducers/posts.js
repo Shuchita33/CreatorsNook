@@ -1,4 +1,4 @@
-import {CREATE,DELETE,UPDATE,FETCH_ALL,LIKE,FETCH_BY_SEARCH,START_LOADING,END_LOADING,FETCH_POST, COMMENT} from '../constants/actionTypes';
+import {CREATE,DELETE,UPDATE,FETCH_ALL,LIKE,FETCH_BY_SEARCH,START_LOADING,END_LOADING,FETCH_POST, COMMENT,DELETE_COMMENT} from '../constants/actionTypes';
 const reducer=(state={isLoading:true,posts:[]},action)=>{
     switch (action.type) {
         case START_LOADING:
@@ -30,6 +30,8 @@ const reducer=(state={isLoading:true,posts:[]},action)=>{
                     return post;
                 })
             }
+        case DELETE_COMMENT:
+            return {...state,posts:state.posts.map((post) => (state.posts._id === action.payload._id ? action.payload : post))};
         case DELETE:
             return {...state,posts:state.posts.filter((post)=>post._id!==action.payload._id)}
 

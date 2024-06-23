@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './components/Home/Home';
 import Auth from './components/Auth/Auth';
 import PostDetails from './components/PostDetails/PostDetails';
+import Profile from './components/Profile/Profile';
 
 function App() {
   const user=localStorage.getItem('profile');
@@ -20,8 +21,8 @@ function App() {
         <Route path='/posts/search' exact Component={Home}/>
         <Route path='/posts/:id' Component={PostDetails}/> 
         <Route path='/auth' Component={()=>(!user?<Auth/>: <Navigate to='/posts'/>)}/>
-      </Routes>
-      
+        <Route path='/user/:id/profile' Component={Profile}/>
+      </Routes>   
     </Container>
     </BrowserRouter>
     

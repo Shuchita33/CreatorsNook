@@ -1,7 +1,6 @@
 import axios from 'axios';                // to make api calls
 //const url='http://localhost:3001/posts';  // points to our backend route
 
-const API=axios.create({baseURL:'http://localhost:3001'});
 
 API.interceptors.request.use((req)=>{
     if(localStorage.getItem('profile')){
@@ -12,6 +11,7 @@ API.interceptors.request.use((req)=>{
 })
 
 export const comment=(value,id)=>API.post(`/posts/${id}/commentPost`,{value});
+export const deleteComment = (id, index) => API.patch(`/posts/${id}/deleteComment`, { index });
 export const fetchPost=(id)=>API.get(`/posts/${id}`);
 export const fetchPosts=(page)=>API.get(`/posts?page=${page}`);  // to pass page number on which we are
 export const createPosts=(newPost)=>API.post('/posts',newPost);

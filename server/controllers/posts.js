@@ -123,3 +123,20 @@ export const getPost=async(req,res)=>{
         res.status(404).json({message:error.message});
     }
 }
+//DELETE COMMENT 
+export const deleteComment = async (req, res) => {
+    const { id } = req.params;
+    const { index } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No post with that id');
+
+    const post = await PostMessage.findById(id);
+
+    if (post) {
+        post.comments.splice(index, 1);
+        const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
+        res.json(updatedPost);
+    } else {
+        res.status(404).json({ message: "Post not found" });
+    }
+};

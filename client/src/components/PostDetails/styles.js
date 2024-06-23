@@ -8,6 +8,9 @@ export default makeStyles((theme) => ({
     maxHeight: '600px',
 
   },
+  paper: {
+    padding: theme.spacing(2),
+  },
   card: {
     display: 'flex',
     width: '100%',
@@ -40,6 +43,13 @@ export default makeStyles((theme) => ({
     display:'flex', justifyContent:'space-between'
   },
   commentsInnerContainer:{
-    height:'200px',overflow:'auto', marginRight:'30px'
+    height:'200px',width:'20vw',overflow:'auto', marginRight:'30px'
+  },
+  comment:{
+    display:'flex', flexDirection:'row',justifyContent:'space-between'
+  },
+  deleteComment:{
+    marginRight:'10px'
+    
   }
 }));
