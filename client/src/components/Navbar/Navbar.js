@@ -6,13 +6,16 @@ import {Link,useNavigate,useLocation} from 'react-router-dom';
 import { useState,useEffect } from "react";
 import { useDispatch } from "react-redux";
 import decode from 'jwt-decode';
+
 const Navbar=()=>{
-    const ourUser=JSON.parse(localStorage.getItem('profile'));
     const classes=useStyles();
+    const ourUser=JSON.parse(localStorage.getItem('profile'));
+  
     const [user,setUser]=useState(ourUser);
     const navigate=useNavigate();
     const dispatch=useDispatch();
     const location=useLocation();
+
     const logout=()=>{
         dispatch({type:'LOGOUT'})
         navigate('/');
@@ -35,6 +38,10 @@ const Navbar=()=>{
         setUser(JSON.parse(localStorage.getItem('profile')));  
     },[location])
 
+    const handleViewProfile=()=>{
+        const userName=(user?.result?.name || user?.result?.given_name).split(" ").join("_");
+            navigate(`/user/${userName}/profile`,{state: user.result});
+    }
     return(
       <AppBar className={classes.appBar} position='static' color='inherit'>
         <Link to='/' style={{ textDecoration: 'none' }} className={classes.brandContainer}>
@@ -52,6 +59,7 @@ const Navbar=()=>{
                     <Typography className={classes.userName} variant="h6">
                         {user.result.given_name ? user.result.given_name :user.result.name}
                     </Typography>
+                    <Button className={classes.logout} variant="contained" color="secondary" onClick={handleViewProfile}>View Profile</Button>
                     <Button className={classes.logout} variant="contained" color="secondary" onClick={logout}>LogOut</Button>
                 </div>
             ):(

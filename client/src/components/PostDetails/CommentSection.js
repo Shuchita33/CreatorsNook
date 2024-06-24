@@ -53,18 +53,9 @@ const CommentSection = ({post}) => {
                </Typography>
                <div>
                {(user?.result?.name || user?.result?.given_name) === c.split(':')[0] && (
-                <div>
                    <IconButton onClick={() => handleDelete(i)} aria-label="delete" className={classes.deleteComment}>
                        <DeleteIcon style={{height:'2vh',width:'2vh',color:'black'}} />
-                       
-                   </IconButton>
-                   <Snackbar
-                           open={openSnackbar}
-                           autoHideDuration={3000}
-                           onClose={handleCloseSnackbar}
-                           message="Comment deleted"
-                       />
-                 </div> 
+                   </IconButton>                              
                )}
                </div>
            </div>         
@@ -91,6 +82,12 @@ const CommentSection = ({post}) => {
           </Typography>
       </Paper>)}
       </div>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        message="Comment deleted"
+    />                   
     </div>
 
   )
