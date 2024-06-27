@@ -21,7 +21,7 @@ const Profile = () => {
       console.log(userId);  
   }   
 
-  },[])
+  },[user?._id,user?.sub])
   
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({

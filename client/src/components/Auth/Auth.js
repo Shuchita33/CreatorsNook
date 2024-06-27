@@ -8,7 +8,6 @@ import {useDispatch} from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { signin, signup } from "../../actions/auth";
-// import Icon from './icon';
 
 const initialState={firstName:'',lastName:'',email:'',password:'',confirmPassword:''}
 

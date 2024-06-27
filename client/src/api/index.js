@@ -1,7 +1,7 @@
 import axios from 'axios';                // to make api calls
-//const url='http://localhost:3001/posts';  // points to our backend route
+//const url='http://localhost:3001/';  // points to our backend route
 
-const API=axios.create({baseURL:'http://localhost:3001/'});
+const API=axios.create({baseURL:'https://creatorsnook.onrender.com/'});
 
 API.interceptors.request.use((req)=>{
     if(localStorage.getItem('profile')){
