@@ -47,3 +47,14 @@ export const getProfile=async(req,res)=>{
         res.status(500).json({message:"Something went wrong"});
     }
 }
+const updateUserProfile = async (req, res) => {
+    const { id } = req.params;
+    const profileData = req.body;
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(id, { profile: profileData }, { new: true });
+        res.json(updatedUser);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};

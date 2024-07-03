@@ -8,3 +8,11 @@ export const getProfile=(id)=>async(dispatch)=>{
         console.log(error);
     }
 }
+export const updateProfile = (id, profileData) => async (dispatch) => {
+    try {
+        const { data } = await api.updateProfile(id, profileData);
+        dispatch({ type: 'UPDATE_PROFILE', payload: data });
+    } catch (error) {
+        console.log(error);
+    }
+};

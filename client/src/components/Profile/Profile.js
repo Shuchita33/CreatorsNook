@@ -1,7 +1,7 @@
 import {React,useEffect,useState} from 'react'
 import {Paper, Box, Typography,Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle} from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { getProfile } from "../../actions/user";
+import { getProfile,updateProfile } from "../../actions/user";
 import { useLocation } from 'react-router-dom';
 
 const Profile = () => {
@@ -46,8 +46,10 @@ const Profile = () => {
   };
 
   const handleSubmit = () => {
-    
+    const userId = user._id || user.sub;
+    dispatch(updateProfile(userId, formData));
     console.log('Updated Profile Data:', formData);
+
     handleClose();
   };
   return (

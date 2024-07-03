@@ -24,3 +24,4 @@ export const fetchPostsBySearch=(searchQuery)=>API.get(`/posts/search?searchQuer
 export const signIn=(formData)=>API.post('/user/signin',formData);
 export const signUp=(formData)=>API.post('/user/signup',formData);
 export const viewProfile=(id)=>API.get(`/user/${id}/profile`);
+export const updateProfile = (id, profileData) => API.patch(`/api/profile/updateProfile/${id}`, profileData);
