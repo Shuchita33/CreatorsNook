@@ -15,4 +15,5 @@ export const START_LOADING='START_LOADING';
 export const END_LOADING='END_LOADING';
 
 export const GETUSER='GETUSER';
+export const CREATE_PROFILE='CREATE_PROFILE';
 export const UPDATE_PROFILE='UPDATE_PROFILE';
