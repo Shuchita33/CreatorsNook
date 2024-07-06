@@ -1,6 +1,6 @@
 import axios from 'axios';                // to make api calls
 //const url='http://localhost:3001/';  // points to our backend route
-
+//https://creatorsnook.onrender.com/
 const API=axios.create({baseURL:'http://localhost:3001/'});
 
 API.interceptors.request.use((req)=>{
@@ -23,7 +23,10 @@ export const fetchPostsBySearch=(searchQuery)=>API.get(`/posts/search?searchQuer
 
 export const signIn=(formData)=>API.post('/user/signin',formData);
 export const signUp=(formData)=>API.post('/user/signup',formData);
+export const updateUsername=(id,name)=>API.patch(`/user/${id}`,{name});
 
 export const viewProfile=(id)=>API.get(`/user/${id}/profile`);
 export const createProfile=(formData)=>API.post(`/user`,formData);
 export const updateProfile = (id, profileData) => API.patch(`/user/updateProfile/${id}`, profileData);
+
+export const fetchPostsByUser = (userId, username) => API.get(`/user/${userId}`, {params: { username }}); 

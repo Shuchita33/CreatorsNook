@@ -22,7 +22,7 @@ export const getPosts= async(req,res)=>{
     // console.log(page.page)
 
     try{
-        const LIMIT=6;
+        if(page){const LIMIT=6;
         const startIndex=(Number(page.page)-1)*LIMIT; //get starting index of every page
         const total=await PostMessage.countDocuments({}); // the total number of pages we would have
         const numberofPages=Math.ceil(total/LIMIT);
@@ -33,7 +33,11 @@ export const getPosts= async(req,res)=>{
         res.status(200).json({data: postsmsg,
                               currentPage:Number(page.page),
                               numberofPages:numberofPages});
-
+        }
+        else{
+            const postsmsg=await PostMessage.find();
+            res.status(200).json({postsmsg});
+        }
     }
     catch(error){
         res.status(404).json({message:error.message});

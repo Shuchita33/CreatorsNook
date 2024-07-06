@@ -3,12 +3,13 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel.js';     //first create user model
 import Profile from '../models/Profile.js';
+import PostMessage from '../models/postMessage.js';
 
 export const signin=async(req,res)=>{
     const {email,password}=req.body;        
     try {
         const existingUser=await User.findOne({email});
-        if(!existingUser) return res.status(404).json({message:"User doesn't exisit"});
+        if(!existingUser) return res.status(404).json({message:"User doesn't exist"});
 
         const isPassCorrect=await bcrypt.compare(password,existingUser.password);
         if(!isPassCorrect) return res.status(400).json({message:"Invalid Credentials"});
@@ -77,5 +78,38 @@ export const updateUserProfile = async (req, res) => {
         res.json(profile);
     } catch (error) {
         res.status(400).json({ message: error.message });
+    }
+};
+export const updateUserName = async (req, res) => {
+    const { id } = req.params;
+    const { name } = req.body;
+    try {
+        const updatedUser = await User.findByIdAndUpdate(id, { name }, { new: true });
+        await PostMessage.updateMany({ creator: id }, { name });
+        res.json(updatedUser);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+};
+export const getPostsByUserId = async (req, res) => {
+    const {username}=req.query;
+    const {id} = req.params;
+    console.log(id);
+    console.log(username);
+    try {
+        const posts = await PostMessage.find({ creator: id });
+        if(username){
+            const updatedPosts = await Promise.all(
+            posts.map(async (post) => {
+                post.name = username;
+                await post.save();
+                return post;
+            })
+            );
+            res.status(200).json(updatedPosts);
+        }
+        else res.status(200).json(posts);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
     }
 };

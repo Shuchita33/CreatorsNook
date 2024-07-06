@@ -5,11 +5,20 @@ import {CREATE,DELETE,UPDATE,FETCH_ALL,FETCH_BY_SEARCH,START_LOADING,END_LOADING
 export const getPosts=(page)=>async(dispatch)=>{
     try {
         dispatch({type:START_LOADING});
-        const {data}=await api.fetchPosts(page);
+        if(page){
+            const {data}=await api.fetchPosts(page);
+            const action={type:FETCH_ALL,payload:data};
+            dispatch(action);
+        }
         // console.log(data);
+        else{
+            const{data}=await api.fetchPosts();
+            
+            const action={type:FETCH_ALL,payload:data};
+            dispatch(action);
+            return data;
+        }
         
-        const action={type:FETCH_ALL,payload:data};
-        dispatch(action);
         // console.log("End")
         dispatch({type:END_LOADING})
 

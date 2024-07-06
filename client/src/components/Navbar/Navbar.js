@@ -30,7 +30,7 @@ const Navbar=()=>{
             }
         }
         else{  //for google signin
-            if(user?.result.exp*1000<new Date().getTime()){  //the format of google oauth token is different from that of jwt
+            if(user?.result?.exp*1000<new Date().getTime()){  //the format of google oauth token is different from that of jwt
                 logout();
             }
         }
@@ -52,12 +52,12 @@ const Navbar=()=>{
             {user?(
                 <div className={classes.profile}>
                     <Avatar className={classes.purple} 
-                            alt={user.result.name}
-                            src={user.result.imageUrl}>
-                            {user.result.name.charAt(0)}
+                            alt={user.result?.name}
+                            src={user.result?.imageUrl}>
+                            {user.result?.name.charAt(0)}
                     </Avatar>
                     <Typography className={classes.userName} variant="h6">
-                        {user.result.given_name ? user.result.given_name :user.result.name}
+                        {user.result?.given_name ? user.result?.given_name :user.result?.name}
                     </Typography>
                     <Button className={classes.logout} variant="contained" color="secondary" onClick={handleViewProfile}>View Profile</Button>
                     <Button className={classes.logout} variant="contained" color="secondary" onClick={logout}>LogOut</Button>

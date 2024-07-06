@@ -2,15 +2,16 @@ import {React,useEffect,useState} from 'react';
 import FileBase from 'react-file-base64';
 import {Paper, Box, Typography,Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle} from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { getProfile,updateProfile,createProfile } from "../../actions/user";
+import { getProfile,updateProfile,createProfile,updateUserName,getPostsByUser } from "../../actions/user";
 import { useLocation } from 'react-router-dom';
 import useStyles from './styles';
+import { getPosts } from '../../actions/posts';
 
 const Profile = () => {
   const classes=useStyles();
   const dispatch=useDispatch();
   const location=useLocation();
-
+  const getUserName=JSON.parse(localStorage.getItem('profile'));
   const[Isprofile,setIsProfile]=useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
@@ -41,8 +42,7 @@ const Profile = () => {
       else{ 
         setIsProfile(true);   
         setFormData(profData);
-      }
-      
+      }    
     };
 
    fetchData();
@@ -56,17 +56,34 @@ const Profile = () => {
     setOpen(false);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     if(Isprofile){
       dispatch(updateProfile(userId, formData));
-      console.log('Updated Profile Data:', formData);
+      //console.log('Updated Profile Data:', formData);
     }
 
-    else{
-      
+    else{    
       dispatch(createProfile({...formData,userId:userId}));
-      console.log('Created successfully');
+      //console.log('Created successfully');
     }
+
+  if(getUserName.result?.name !==formData.displayname){ 
+    //Change navbar displayname upon edit profile
+
+    if(getUserName.result.name){
+      getUserName.result.name=formData.displayname;
+    }
+
+    localStorage.setItem('profile',JSON.stringify(getUserName));
+
+    //Update Username and displayname over all previous posts of the user when the name is updated
+
+    if(user._id) dispatch(updateUserName(userId,formData.displayname));
+    dispatch(getPostsByUser(userId,formData.displayname));
+    const {data}= await dispatch(getPosts());
+    console.log(data);
+    
+  }
 
     handleClose();
   };
@@ -100,17 +117,6 @@ const Profile = () => {
             value={formData?.displayname}
             onChange={(e)=>{
               setFormData({...formData,displayname:e.target.value})
-            }}
-          />
-          <TextField
-            margin="dense"
-            name="email"
-            label="Email"
-            type="email"
-            fullWidth
-            value={formData?.email}
-            onChange={(e)=>{
-              setFormData({...formData,email:e.target.value})
             }}
           />
           <TextField
