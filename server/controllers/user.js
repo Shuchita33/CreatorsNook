@@ -97,7 +97,7 @@ export const getPostsByUserId = async (req, res) => {
     console.log(id);
     console.log(username);
     try {
-        const posts = await PostMessage.find({ creator: id });
+        const posts = await PostMessage.find({ creator: id }).sort({_id:-1});
         if(username){
             const updatedPosts = await Promise.all(
             posts.map(async (post) => {

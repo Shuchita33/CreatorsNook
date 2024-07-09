@@ -12,6 +12,7 @@ const Navbar=()=>{
     const ourUser=JSON.parse(localStorage.getItem('profile'));
   
     const [user,setUser]=useState(ourUser);
+    const userId=ourUser?.result?._id || ourUser?.result?.sub;
     const navigate=useNavigate();
     const dispatch=useDispatch();
     const location=useLocation();
@@ -40,7 +41,7 @@ const Navbar=()=>{
 
     const handleViewProfile=()=>{
         const userName=(user?.result?.name || user?.result?.given_name).split(" ").join("_");
-            navigate(`/user/${userName}/profile`,{state: user.result});
+            navigate(`/user/${userId}/profile`);
     }
     return(
       <AppBar className={classes.appBar} position='static' color='inherit'>

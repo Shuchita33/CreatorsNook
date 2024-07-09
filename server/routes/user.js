@@ -7,7 +7,8 @@ userRouter.post('/signin',signin);
 userRouter.post('/signup',signup);
 userRouter.get(`/:id/profile`,auth,getProfile);
 userRouter.post(`/`,createUserProfile);
-userRouter.patch('/updateProfile/:id', updateUserProfile);
+userRouter.patch('/updateProfile/:id', auth, updateUserProfile);
 userRouter.patch('/:id', updateUserName);
 userRouter.get('/:id', getPostsByUserId);
+
 export default userRouter;
