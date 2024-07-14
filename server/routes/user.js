@@ -6,7 +6,7 @@ const userRouter=express.Router();
 
 userRouter.post('/signin',signin);
 userRouter.post('/signup',signup);
-userRouter.get(`/:id/profile`,auth, ProfileMetrics, getProfile);
+userRouter.get(`/:id/profile`, ProfileMetrics, getProfile);
 userRouter.post(`/`,createUserProfile);
 userRouter.patch('/updateProfile/:id', auth, ProfileMetrics, updateUserProfile);
 userRouter.patch('/:id', updateUserName);

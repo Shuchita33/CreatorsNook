@@ -94,8 +94,8 @@ export const updateUserName = async (req, res) => {
 export const getPostsByUserId = async (req, res) => {
     const {username}=req.query;
     const {id} = req.params;
-    console.log(id);
-    console.log(username);
+    // console.log(id);
+    // console.log(username);
     try {
         const posts = await PostMessage.find({ creator: id }).sort({_id:-1});
         if(username){
